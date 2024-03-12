@@ -1,9 +1,9 @@
 import express from 'express';
 
-import target from './target';
+import goal from './goal';
 
 const router = express.Router();
 
-router.get('/target', target.getAllTarget);
+router.use('/goal', goal);
 
 export default router;
