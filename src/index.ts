@@ -11,11 +11,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/blog/be/hello', (req: Request, res: Response) => {
     res.send('Hello World!');
 });
 
-app.use(router);
+app.use('/blog/be/', router);
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

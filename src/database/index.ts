@@ -5,3 +5,4 @@ const db = mysql.createPool(sqlConfig);
 
 export {db};
 export * as goalApi from './goal';
+export * as userApi from './user';
