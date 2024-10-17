@@ -3,8 +3,6 @@ FROM node:18-alpine AS builder
 
 # 安装 pnpm
 RUN npm install -g pnpm@8.7.0
-# 安装nodemon
-RUN pnpm install nodemon -g
 
 # 设置工作目录
 WORKDIR /app
