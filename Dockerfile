@@ -1,5 +1,5 @@
 # 使用官方 Node.js 镜像作为构建基础镜像
-FROM node:18.17.1 AS builder
+FROM node:18-alpine AS builder
 
 # 安装 pnpm
 RUN npm install -g pnpm@8.7.0
