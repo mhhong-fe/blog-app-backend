@@ -1,6 +1,7 @@
 var express = require("express");
 const pool = require("../config/dbConfig");
 const { generateToken } = require("../middleware/jwt");
+const axios = require("axios");
 
 var router = express.Router();
 
@@ -31,7 +32,6 @@ router.post("/register", async (req, res) => {
         const result = await connection.execute(
             `INSERT INTO users (user_name, user_password) VALUES ('${username}', '${password}')`
         );
-        console.log({ result: JSON.stringify(result) });
         res.status(200).json({
             code: 200,
             msg: "注册成功",

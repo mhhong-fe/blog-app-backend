@@ -9,7 +9,6 @@ function generateToken(userId) {
 }
 
 function verifyToken(req, res, next) {
-    console.log({ req });
     const token = req.cookies.token;
 
     if (!token) {

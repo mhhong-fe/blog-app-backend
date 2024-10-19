@@ -26,7 +26,7 @@ CREATE TABLE articles (
     content MEDIUMTEXT NOT NULL,
     -- 文章内容，存储中大型文本
     article_desc VARCHAR(100),
-    author VARCHAR(100) NOT NULL,
+    author VARCHAR(100),
     -- 作者名称，最大长度为 100 字符
     category_id INT,
     created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -35,5 +35,3 @@ CREATE TABLE articles (
     -- 文章更新时间
     view_count INT DEFAULT 0 -- 浏览次数，初始为 0
 );
-ALTER TABLE articles
-MODIFY author VARCHAR(100) NULL;
