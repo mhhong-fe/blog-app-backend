@@ -4,7 +4,7 @@ const mysql = require("mysql2/promise");
 const pool = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "hmh6861860",
+    password: "xxxx",
     database: "blog_app",
     waitForConnections: true,
     connectionLimit: 10, // 连接池中允许的最大连接数
