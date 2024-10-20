@@ -3,7 +3,7 @@ const mysql = require("mysql2/promise");
 // 需要把这里换成真实的服务器信息
 // 设置MySQL连接池
 const pool = mysql.createPool({
-    host: "xxxxxx",
+    host: "searverIp",
     port: 3306,
     user: "root",
     password: "xxxxxx",
