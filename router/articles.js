@@ -55,7 +55,6 @@ router.post("/add", verifyToken, async (req, res) => {
 
 router.post("/edit", verifyToken, async (req, res) => {
     const { id, title, content, articleDesc, categoryId } = req.body;
-    console.log({ body: req.body });
     if (!id || !title || !content || !articleDesc || !categoryId) {
         return res.json({
             code: 400,
@@ -185,10 +184,6 @@ router.get("/overview", async (req, res) => {
 
         let categoryQuery = `SELECT * FROM category`;
         const categoryRes = await connection.execute(categoryQuery);
-        console.log({
-            articleRes: articleRes[0],
-            categoryRes: categoryRes[0],
-        });
         const articleList = articleRes[0];
         const categoryList = categoryRes[0];
         // 获取每种分类下文章的数量
@@ -229,7 +224,6 @@ router.get("/overview", async (req, res) => {
 
 router.get("/detail", async (req, res) => {
     let { id } = req.query;
-    console.log({ req });
     let connection;
     try {
         // 从连接池中获取一个连接
@@ -248,6 +242,35 @@ router.get("/detail", async (req, res) => {
             code: 200,
             msg: "查询成功",
             data: transformArray(rows)[0],
+        });
+    } catch (err) {
+        // 处理错误
+        console.error("Error executing query:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+    } finally {
+        // 确保连接被释放回连接池（如果它仍然存在）
+        if (connection) {
+            connection.release();
+        }
+    }
+});
+
+router.post("/addViewCount", async (req, res) => {
+    let { id } = req.body;
+    let connection;
+    try {
+        // 从连接池中获取一个连接
+        connection = await pool.getConnection();
+
+        let sqlQuery = `UPDATE articles
+            SET view_count = view_count + 1
+            WHERE id = ?;`;
+
+        await connection.execute(sqlQuery, [id]);
+
+        res.json({
+            code: 200,
+            msg: "",
         });
     } catch (err) {
         // 处理错误
