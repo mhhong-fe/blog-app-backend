@@ -148,6 +148,7 @@ router.post("/list", async (req, res) => {
             FROM articles
             LEFT OUTER JOIN category
             ON (articles.category_id = category.id)
+            ORDER BY created_time DESC
             LIMIT ${pageNum - 1}, ${pageSize}`;
 
         const [rows, fields] = await connection.execute(sqlQuery);

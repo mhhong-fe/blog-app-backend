@@ -1,5 +1,5 @@
 // 中间件来验证Token
-const jwt = require("jsonwebtoken"); // 假设你正在使用JWT
+const jwt = require("jsonwebtoken");
 
 const jwtSecret = "blog_admin";
 
