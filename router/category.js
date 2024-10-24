@@ -131,7 +131,7 @@ router.get("/list", async (req, res) => {
     try {
         // 从连接池中获取一个连接
         connection = await pool.getConnection();
-        const sqlQuery = `SELECT * FROM category ORDER BY created_time DES`;
+        const sqlQuery = `SELECT * FROM category ORDER BY create_time DESC`;
         const [rows, fields] = await connection.execute(sqlQuery);
         res.status(200).json({
             code: 200,
