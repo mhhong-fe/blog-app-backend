@@ -77,15 +77,17 @@ router.post("/edit", verifyToken, async (req, res) => {
             });
             return;
         }
-        const sqlQuery = `  
+        const sqlQuery = `
             UPDATE articles  
-            SET title = '${title}',  
-                content = '${content}',
-                category_id = '${categoryId}',
-                article_desc = '${articleDesc}'  
-            WHERE id = ${id}  
+            SET title = ?,  
+                content = ?,  
+                category_id = ?,  
+                article_desc = ?  
+            WHERE id = ?  
         `;
-        const result = await connection.execute(sqlQuery);
+        const params = [title, content, categoryId, articleDesc, id];
+
+        const result = await connection.execute(sqlQuery, params);
         res.status(200).json({
             code: 200,
             msg: "添加成功",
@@ -139,19 +141,19 @@ router.post("/list", async (req, res) => {
     try {
         // 从连接池中获取一个连接
         connection = await pool.getConnection();
-        // let sqlQuery = `SELECT articles.*,
-        //     category.category_name FROM articles, category
-        //     WHERE articles.category_id = category.id
-        //     LIMIT ${pageNum - 1}, ${pageSize}`;
 
+        const offset = (pageNum - 1) * pageSize;
         let sqlQuery = `select articles.*, category.category_name
             FROM articles
             LEFT OUTER JOIN category
             ON (articles.category_id = category.id)
             ORDER BY created_time DESC
-            LIMIT ${pageNum - 1}, ${pageSize}`;
+            LIMIT ${offset}, ${pageSize}`;
 
         const [rows, fields] = await connection.execute(sqlQuery);
+        let totalSqlQuery = `select COUNT(*) AS total FROM articles`;
+        const result = await connection.execute(totalSqlQuery);
+
         res.status(200).json({
             code: 200,
             msg: "查询成功",
@@ -159,7 +161,7 @@ router.post("/list", async (req, res) => {
             pageDto: {
                 pageNum: pageNum,
                 pageSize: pageSize,
-                total: rows.length,
+                total: result[0][0].total,
             },
         });
     } catch (err) {
